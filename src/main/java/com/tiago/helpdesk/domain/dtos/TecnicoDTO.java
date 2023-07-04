@@ -1,49 +1,42 @@
-package com.tiago.helpdesk.domain;
+package com.tiago.helpdesk.domain.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.tiago.helpdesk.domain.Tecnico;
 import com.tiago.helpdesk.domain.enums.Perfil;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Entity
-public abstract class Pessoa implements Serializable {
+public class TecnicoDTO implements Serializable {
     private static final long serializableUID = 1l;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
     protected String nome;
-
-    @Column(unique = true)
     protected String cpf;
-    @Column(unique = true)
     protected String email;
     protected String senha;
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "PERFIL")
     protected Set<Integer> perfis = new HashSet<>();
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataCriacao = LocalDate.now();
 
-    public Pessoa(){
+    public TecnicoDTO(){
         super();
-        addPerfil(Perfil.CLIENTE);
     }
 
-    public Pessoa(Integer id, String nome, String cpf, String email, String senha) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.email = email;
-        this.senha = senha;
-        addPerfil(Perfil.CLIENTE);
+    public TecnicoDTO(Tecnico obj) {
+        super();
+        this.id = obj.getId();
+        this.nome = obj.getNome();
+        this.cpf = obj.getCpf();
+        this.email = obj.getEmail();
+        this.senha = obj.getSenha();
+        this.perfis = obj.getPerfis().stream().map(x -> x.getCod()).collect(Collectors.toSet());
+        this.dataCriacao = obj.getDataCriacao();
     }
 
     public Integer getId() {
@@ -90,8 +83,8 @@ public abstract class Pessoa implements Serializable {
         return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
     }
 
-    public void addPerfil(Perfil perfil) {
-        this.perfis.add(perfil.getCod());
+    public void addPerfis(Perfil perfis) {
+        this.perfis.add(perfis.getCod());
     }
 
     public LocalDate getDataCriacao() {
@@ -100,17 +93,5 @@ public abstract class Pessoa implements Serializable {
 
     public void setDataCriacao(LocalDate dataCriacao) {
         this.dataCriacao = dataCriacao;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Pessoa pessoa)) return false;
-        return getId().equals(pessoa.getId()) && getCpf().equals(pessoa.getCpf());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getCpf());
     }
 }

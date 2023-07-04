@@ -1,6 +1,7 @@
 package com.tiago.helpdesk.resourcer;
 
 import com.tiago.helpdesk.domain.Tecnico;
+import com.tiago.helpdesk.domain.dtos.TecnicoDTO;
 import com.tiago.helpdesk.repository.TecnicoRepository;
 import com.tiago.helpdesk.service.TecnicoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +20,10 @@ public class TecnicoResources {
     @Autowired
     private TecnicoService service;
 
-    @GetMapping
-    public List<Tecnico> findAll(){
-        List<Tecnico> listTec = service.findAll();
-        return listTec;
-    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Tecnico> findById(@PathVariable Integer id){
-        Tecnico tec = service.findById(id);
-        return ResponseEntity.ok().body(tec);
+    public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id){
+        Tecnico obj = service.findById(id);
+        return ResponseEntity.ok().body(new TecnicoDTO(obj));
     }
 }
