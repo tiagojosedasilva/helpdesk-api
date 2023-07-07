@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tiago.helpdesk.domain.Tecnico;
 import com.tiago.helpdesk.domain.enums.Perfil;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,9 +16,13 @@ public class TecnicoDTO implements Serializable {
     private static final long serializableUID = 1l;
 
     protected Integer id;
+    @NotNull(message = "O campo Nome é requerido!")
     protected String nome;
+    @NotNull(message = "O campo CPF é requerido!")
     protected String cpf;
+    @NotNull(message = "O campo E-mail é requerido!")
     protected String email;
+    @NotNull(message = "O campo Senha é requerido!")
     protected String senha;
     protected Set<Integer> perfis = new HashSet<>();
 
