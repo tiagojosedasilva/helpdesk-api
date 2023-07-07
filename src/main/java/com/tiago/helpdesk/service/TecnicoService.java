@@ -6,6 +6,7 @@ import com.tiago.helpdesk.domain.dtos.TecnicoDTO;
 import com.tiago.helpdesk.repository.PessoaRepository;
 import com.tiago.helpdesk.repository.TecnicoRepository;
 import com.tiago.helpdesk.service.exceptions.ObjectNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -46,5 +47,13 @@ public class TecnicoService {
         if (obj.isPresent() && obj.get().getId() != objDTO.getId()){
             throw new DataIntegrityViolationException("E-mail já cadastrado no sistema");
         }
+    }
+
+    public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
+        objDTO.setId(id);
+        Tecnico oldObj = findById(id);
+        validaPorCpfEmail(objDTO);
+        oldObj = new Tecnico(objDTO);
+        return tecnicoRepository.save(oldObj);
     }
 }

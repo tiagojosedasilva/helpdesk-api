@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.swing.text.html.parser.Entity;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,5 +39,11 @@ public class TecnicoResources {
         Tecnico newObj = service.create(objDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
         return ResponseEntity.created(null).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @Valid @RequestBody TecnicoDTO objDTO){
+        Tecnico obj = service.update(id, objDTO);
+        return ResponseEntity.ok().body(new TecnicoDTO(obj));
     }
 }
