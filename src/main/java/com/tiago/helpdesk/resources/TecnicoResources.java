@@ -3,6 +3,7 @@ package com.tiago.helpdesk.resources;
 import com.tiago.helpdesk.domain.Tecnico;
 import com.tiago.helpdesk.domain.dtos.TecnicoDTO;
 import com.tiago.helpdesk.service.TecnicoService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,11 @@ public class TecnicoResources {
     public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id, @Valid @RequestBody TecnicoDTO objDTO){
         Tecnico obj = service.update(id, objDTO);
         return ResponseEntity.ok().body(new TecnicoDTO(obj));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TecnicoDTO> delete(@PathVariable Integer id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
