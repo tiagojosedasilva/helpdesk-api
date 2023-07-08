@@ -19,7 +19,7 @@ public enum Prioridade {
         return desc;
     }
 
-    public static Prioridade toEnum(Integer cod) throws IllegalAccessException {
+    public static Prioridade toEnum(Integer cod) {
         if(cod == null){
             return null;
         }
@@ -28,7 +28,7 @@ public enum Prioridade {
                 return x;
             }
         }
-        throw new IllegalAccessException("Prioridade inválida!");
+        throw new IllegalArgumentException("Prioridade inválida!");
     }
 
 }

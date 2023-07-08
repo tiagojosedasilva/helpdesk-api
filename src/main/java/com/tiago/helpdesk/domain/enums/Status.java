@@ -19,7 +19,7 @@ public enum Status {
         return desc;
     }
 
-    public static Status toEnum(Integer cod) throws IllegalAccessException {
+    public static Status toEnum(Integer cod){
         if(cod == null){
             return null;
         }
@@ -28,7 +28,7 @@ public enum Status {
                 return x;
             }
         }
-        throw new IllegalAccessException("Status inválido!");
+        throw new IllegalArgumentException("Status inválido!");
     }
 
 }
