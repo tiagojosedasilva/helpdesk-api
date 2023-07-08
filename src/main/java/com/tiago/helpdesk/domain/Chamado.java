@@ -4,13 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tiago.helpdesk.domain.enums.Prioridade;
 import com.tiago.helpdesk.domain.enums.Status;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.ManyToAny;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class Chamado implements Serializable {
